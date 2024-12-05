@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel = "icon" type = "image/jpg" href = "background/icon.jpg">
+  <title>[The Dark Side of the Moon]</title>
+  <style>
+  
+    body {
+      font-family: Arial, serif; /* 设置页面使用 Arial 字体 */
+      display: flex; /* 使用 Flex 布局 */
+      justify-content: center; /* 水平居中 */
+      align-items: center; /* 垂直居中 */
+      height: 100vh; /* 设置页面高度为视窗高度的 100% */
+      margin: 0; /* 移除默认边距 */
+      background-image: url("background/fondo.jpg");
+	  background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+	  overflow-Y: hidden; /* 隐藏垂直滚动条 */
+    }
+	
+    @media only screen and (max-width: 980px) {	
+		body {
+			background: #000; /* 黑夜背景 */
+		}
+		.stars {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+		 }
+		 
+		.star {
+			position: absolute;
+			background: #fff;
+			border-radius: 50%;
+			animation: twinkle 1s infinite; /* twinkle： 这是动画的自定义名称，与 @keyframes */ twinkle 定义相关联。
+		}
+		
+		@keyframes twinkle {
+			0% { opacity: 0; transform: scale(0); }
+			50% { opacity: 1; transform: scale(1); }
+			100% { opacity: 0; transform: scale(0); }
+		}
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+   /* gap: 20px; */ /* 布局中项目之间的间隔 */
+    }
+
+    .player {
+      text-align: center; /* 文字居中 */
+   /* background: linear-gradient(to bottom, black, white); */ /* 渐变色 */
+      background-color: rgba(255, 255, 255, 0.8); /* 设置背景颜色为白色, 透明度为0.7 (1: 不透明; 0:透明)*/
+      padding: 40px; /* 设置内边距 */
+      border-radius: 10px; /* 设置边框圆角 */
+      box-shadow: 0 15px 15px rgba(105, 105, 105, 0.5);
+	  /*
+	  添加阴影效果:
+	  ·第一个参数（水平偏移量）是阴影水平偏移的距离。正数代表右偏移，负数代表左偏移。
+      ·第二个参数（垂直偏移量）是阴影垂直偏移的距离。正数代表向下偏移，负数代表向上偏移。
+      ·第三个参数（模糊半径）是阴影的模糊程度。值越大，阴影越模糊。为 0 时阴影不模糊。
+      ·第四个参数（阴影颜色）是阴影的颜色。
+	  */
+	  height: 572px;
+   /* backdrop-filter: blur(2px); /* 背景模糊处理 */
+      border: 5px solid #F5F5F5;
+    }
+
+    .album-cover {
+      width: 320px; /* 设置专辑封面宽度 */
+      height: 320px; /* 设置专辑封面高度 */
+      border-radius: 50%; /* 设置圆形边框 */
+      margin-bottom: 20px; /* 设置下边距 */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+	  position: relative;
+	  z-index: 1;
+    }
+	
+	.album-cover-base {
+      width: 350px; /* 设置专辑封面宽度 */
+      height: 350px; /* 设置专辑封面高度 */
+      border-radius: 50%; /* 设置圆形边框 */
+      margin-bottom: 20px; /* 设置下边距 */
+	  background-color: grey;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+	  position: relative;
+	  top: -359px;
+	  z-index: 0;
+    }
+
+    .controls {
+      display: flex; /* 使用 Flex 布局 */
+      justify-content: center; /* 水平居中 */
+      gap: 20px; /* 设置按钮间距 */
+      margin-top: 20px; /* 设置上边距 */
+	  position: relative;
+	  top: -360px;
+    }
+
+    .controls button {
+      padding: 12px 24px; /* 设置按钮内边距 */
+      font-size: 16px; /* 设置按钮文字大小 */
+      cursor: pointer; /* 设置指针样式为手型 */
+      border: none; /* 移除边框 */
+      background-color: #696969; /* 设置按钮背景颜色 */
+      color: white; /* 设置文字颜色 */
+      border-radius: 5px; /* 设置边框圆角 */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+      transition: background-color 0.3s ease-in-out, transform 0.2s; /* 添加过渡效果 */
+    }
+
+    .controls button:hover { /* 设置鼠标悬停时按钮的样式 */
+      background-color: black; /* 设置鼠标悬停时按钮背景颜色 */
+      transform: translateY(-2px); /* 添加向上移动的动画效果 */
+    }
+
+    .controls button:active { /* 添加按钮点击时的动画效果 */
+      box-shadow: none; /* 移除按钮阴影 */
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg); /* 设置初始旋转角度为0度 */
+      }
+      to {
+        transform: rotate(360deg); /* 设置最终旋转角度为360度 */
+      }
+    }
+
+    label {
+	  position: relative;
+	  top: -360px;	
+	}
+
+    .song-name {
+      font-size: 24px;
+      margin-top: 10px;
+	  font-family: Georgia, serif;
+	  visibility: hidden; /* 隐藏元素, 但占据空间 */
+	  position: relative;
+	  top: -360px;
+    }
+	
+	.progress {
+      width: 80%;
+      height: 10px;
+      background-color: #ccc;
+      border-radius: 5px;
+      margin: 20px auto;
+      overflow: hidden;
+	  visibility: hidden;
+	  transform: translateY(-17px);
+	  position: relative;
+	  top: -360px;
+	  border: 3px groove black;
+    }
+	
+    .progress:hover {
+      background-color: #fbfcfc; /* 设置鼠标悬停时按钮背景颜色 */
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background-color: #696969;
+    }
+	
+    .playlist {
+      margin-top: 20px; /* 设置上边距 */
+    }
+
+    .playlist select {
+      padding: 10px; /* 设置选择框内边距 */
+      font-size: 16px; /* 设置选择框文字大小 */
+      border-radius: 5px; /* 设置选择框边框圆角 */
+	  background-color: #F5F5F5;
+	  color: black;
+	  position: relative;
+	  top: -360px;
+    }
+	
+	.time-display {
+      display: flex;
+      justify-content: space-between; /* 在主轴上将项目等距分布，使得首个项目位于容器的起始位置，最后一个项目位于容器的末尾位置，同时剩余项目之间平均分布，产生相等的空白间距。 */
+      margin-top: 5px;
+	  visibility: hidden;
+	  position: relative;
+	  top: -360px;
+    }
+
+    .time-display span {
+      font-size: 12px;
+      color: black;
+	  padding: 2px;
+	  border: 3px groove black;
+	  border-radius: 7px;
+	  background-color: #DCDCDC;
+	  transform: translateY(22px); /* 向下位移 */
+    }
+	
+  </style>
+</head>
+
+<body>
+ <div class="stars"></div>
+
+ <div class="container">
+  <div class="player">
+    <div>
+    <img class="album-cover" src="cover/default.png" alt="Album Cover">
+  	<div><img class="album-cover-base" src="background/disco.png" alt="Album Cover Base"></div></div>
+    <audio id="audio"></audio>
+	<div class="song-name" id="songName"></div> <!-- 添加显示歌曲名称的元素 -->
+	
+	<div class="time-display" id="timeDisplay">
+      <span class="current-time">0:00</span>
+      <span class="total-time">0:00</span>
+    </div>	
+	
+    <div class="progress" id="progressContainer">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="controls">
+      <button onclick="previousSong()">PREVIOUS</button>
+      <button onclick="playPauseMusic()">PLAY/PAUSE</button>
+      <button onclick="stopMusic()">STOP</button>
+      <button onclick="nextSong()">NEXT</button>
+    </div>
+	
+	<!-- 
+	value: 值
+	for: 相关联
+	label: 描述
+  	-->
+    <div class="playlist">
+      <label for="songList">SELECT TRACK：</label>
+      <select id="songList" onchange="changeSong()">
+        <option value="0">01 - Speak To Me</option>
+        <option value="1">02 - Breathe (In The Air)</option>
+        <option value="2">03 - On The Run</option>
+        <option value="3">04 - Time</option>
+		<option value="4">05 - The Great Gig In The Sky</option>
+		<option value="5">06 - Money</option>
+		<option value="6">07 - Us And Them</option>
+		<option value="7">08 - Any Colour You Like</option>
+		<option value="8">09 - Brain Damage</option>
+		<option value="9">10 - Eclipse</option>
+      </select>
+    </div>
+  </div>
+ </div>
+  
+  
+  <script>  
+  
+    const audio = document.getElementById('audio');
+    const albumCover = document.querySelector('.album-cover');
+    const songNameElement = document.getElementById('songName');
+	const progressBar = document.getElementById('progressBar');
+    const progressContainer = document.getElementById('progressContainer');
+    let isPlaying = false; // 音乐是否在播放?
+	let first = 0; // 程序初始化状态?
+    let currentSong = 0; // 用于跟踪当前播放的歌曲在歌曲列表中的位置或索引. 初始化为 0 的目的是指定默认情况下播放的是歌曲列表中的第一首歌曲
+    const songs = ['01 Speak To Me.m4a', '02 Breathe (In The Air).m4a', '03 On The Run.m4a', '04 Time.m4a', '05 The Great Gig In The Sky.m4a', '06 Money.m4a', '07 Us And Them.m4a', '08 Any Colour You Like.m4a', '09 Brain Damage.m4a', '10 Eclipse.m4a'];
+    const songNames = ['Speak To Me', 'Breathe (In The Air)', 'On The Run', 'Time', 'The Great Gig In The Sky', 'Money', 'Us And Them', 'Any Colour You Like', 'Brain Damage', 'Eclipse'];
+
+	function loadSong() {
+		// 设置音频源
+		audio.src = `music/${songs[currentSong]}`;
+	
+		// 更新歌曲名称显示
+		updateSongName();
+	
+		// 设置专辑封面，如果找不到封面则使用 default.png
+		albumCover.src = `cover/${songNames[currentSong]}.png`;
+
+		// 如果找不到专辑封面，则加载 default.png
+		albumCover.onerror = function() {
+			albumCover.src = 'cover/default.png';
+		};
+		
+		if (first == 0) { // 如果程序是刚初始化状态则使用默认唱片封面
+			albumCover.src = 'cover/default.png';
+		}
+	}
+
+    function hideProgress() { // 隐藏进度条:
+      const progressContainer = document.getElementById('progressContainer');
+      progressContainer.style.visibility = 'hidden'; // 隐藏进度条
+    }
+
+    function showProgress() { // 显示进度条:
+      const progressContainer = document.getElementById('progressContainer');
+      progressContainer.style.visibility = 'visible'; // 显示进度条
+    }
+
+    function playMusic() { // 播放音乐:
+      audio.play();
+      albumCover.style.animation = 'rotate 8s linear infinite';
+      isPlaying = true;
+	  showProgress();
+	  songNameElement.style.visibility = 'visible';
+	  showTimeDisplay();
+    }
+
+    function pauseMusic() { //暂停按钮:
+      audio.pause();
+      albumCover.style.animationPlayState = 'paused';
+      isPlaying = false;
+    }
+
+    function stopMusic() { // 停止按钮:
+      audio.pause();
+      audio.currentTime = 0;
+      albumCover.style.animation = '';
+      isPlaying = false;
+	  hideProgress();
+	  songNameElement.style.visibility = 'hidden';
+	  hideTimeDisplay();
+   // 下方: 点击停止按钮后重置播放歌曲为第一首, 这样再点击播放时播放的就会是第一首
+   // currentSong = 0;
+   // loadSong()
+   
+      albumCover.src = 'cover/default.png'; // 停止音乐后回到默认专辑封面
+    }
+
+    function playPauseMusic() { // 播放/停止按钮:
+	  first = 1; // 解除程序初始化状态
+	
+      if (isPlaying==true) {
+        pauseMusic(); // 如果音乐正在播放，则暂停音乐
+      } else if (isPlaying==false) {
+        playMusic(); // 否则播放音乐
+		
+	    albumCover.src = `cover/${songNames[currentSong]}.png`; // 恢复音乐后恢复当前曲目专辑封面	
+      }
+    }
+
+    function endToNextSong() { // 歌曲结束自动跳换下一首:
+      currentSong = (currentSong + 1) % songs.length; // (ej:(0+1)/11=>resto"余"=1=第二首)
+	  if (currentSong==0) { // 当最后一曲介绍结束播放列表
+		currentSong = 0;
+		loadSong()
+		stopMusic();
+	  } else {
+		loadSong();
+		playMusic();
+		albumCover.style.animation = '';
+	  }
+	}
+
+    function nextSong() { // 下一首按钮:
+	if (isPlaying==true) {
+      currentSong = (currentSong + 1) % songs.length; // (ej:(0+1)/11=>resto"余"=1=第二首)
+      loadSong();
+      playMusic();
+      albumCover.style.animation = '';
+      }
+	}
+
+    function previousSong() { // 上一首按钮:	
+	if (isPlaying==true){
+      currentSong = (currentSong - 1 + songs.length) % songs.length; // (ej:((0-1)+11)/11=>resto"余"=10=第十一首)
+      loadSong();
+      playMusic();
+      albumCover.style.animation = '';
+      }
+	}
+
+    function updateSongName() { // 歌名展示:
+      songNameElement.textContent = songNames[currentSong];
+    }
+
+    audio.addEventListener('ended', () => { // 当音频播放完成时，会执行:
+      albumCover.style.animation = ''; // 将专辑封面的动画效果置为空，即停止旋转动画;
+      isPlaying = false; // 表示音频已停止播放;
+      endToNextSong(); // 自动播放下一首歌曲.
+    });
+
+    audio.addEventListener('play', () => { // 保证当音频播放时, playMusic()函数会被执行. () 是用作事件监听器的函数体, 这里没有传递任何参数给这个函数，因此 () 中没有参数
+      playMusic();
+    });
+
+    loadSong(); // 用于初始化页面时加载第一首歌曲
+	
+    function changeSong() { // 手动更换歌曲:
+	  first = 1; // 解除程序初始化状态
+	
+      const songList = document.getElementById('songList');
+      currentSong = parseInt(songList.value); // 获取选择的歌曲索引值. parseInt()是用于解析字符串并返回整数的函数
+      loadSong(); // 加载选择的歌曲
+      playMusic(); // 播放选择的歌曲
+	  albumCover.style.animation = '';
+    }
+
+    // 这段代码的作用是允许用户通过鼠标点击和拖动进度条来调整音频的播放进度:
+    progressContainer.addEventListener('mousedown', (e) => { // 当用户在进度条上按下鼠标按钮时触发
+	// (e) 表示事件处理函数的参数，指向鼠标事件对象: (e) 作为事件对象，被用来获取鼠标点击时的坐标信息 (e.clientX, e.clientY) 以及与进度条相关的信息
+      const width = progressContainer.clientWidth; // 捕获进度条的宽度，用以后续计算鼠标点击位置相对于进度条的比例
+      const clickX = e.clientX - progressContainer.getBoundingClientRect().left; // 计算鼠标点击位置相对于进度条左边界的横向距离 (获取鼠标点击位置相对于进度条容器左边界的水平偏移量)
+      const duration = audio.duration; // 获取音频的总时长
+      const currentTime = (clickX / width) * duration; // 计算了当前音频播放的时间，根据鼠标点击位置在进度条上的比例与总时长的乘积
+  
+      audio.currentTime = currentTime; // 将音频的当前播放时间设置为点击位置对应的时间
+
+      document.onmousemove = (e) => { // 当用户在元素上拖动鼠标时，会触发 mousemove 事件，此时指定的事件处理程序将会被调用:
+        const moveX = e.clientX - progressContainer.getBoundingClientRect().left; // 计算鼠标移动后的位置相对于进度条左边界的横向距离(水平偏移量)
+        const newTime = (moveX / width) * duration; // 根据鼠标移动后的位置计算新的音频播放时间
+    
+        if (newTime >= 0 && newTime <= duration) { // 检查新的播放时间是否在合法范围内（0 到总时长之间），
+          audio.currentTime = newTime; // 如果是，则将音频的当前播放时间设置为新的时间
+        }
+      };
+    });
+
+    document.addEventListener('mouseup', () => { // 当鼠标在元素上释放时，
+      document.onmousemove = null; // 将取消之前设置的鼠标移动事件（mousemove事件）的监听器, 移除鼠标移动事件的处理程序
+    });
+
+    audio.addEventListener('timeupdate', () => { // 监视音频播放的进度变化
+      const progress = (audio.currentTime / audio.duration) * 100; // 计算当前音频播放时间位置相对于总时长的百分比，用于更新进度条的显示
+      progressBar.style.width = `${progress}%`; // 根据计算得到的进度百分比，更新了进度条的宽度，以展示当前音频的播放进度
+
+      const currentTime = formatTime(audio.currentTime); // 获取了当前音频的播放时间，并使用 formatTime 函数格式化为可读的时间格式
+      const totalTime = formatTime(audio.duration); // 获取了音频的总时长，并使用 formatTime 函数格式化为可读的时间格式
+
+      const currentTimeDisplay = document.querySelector('.time-display .current-time'); // 使用 document.querySelector 方法选择了具有类名为 time-display 的元素下的类名为 current-time 的元素
+      const totalTimeDisplay = document.querySelector('.time-display .total-time'); // 使用 document.querySelector 方法选择了具有类名为 time-display 的元素下的类名为 total-time 的元素
+
+      currentTimeDisplay.textContent = currentTime; // 将格式化后的 当前播放时间 更新到 HTML 元素中，显示当前播放时间
+      totalTimeDisplay.textContent = totalTime; // 将格式化后的 总播放时长 更新到 HTML 元素中，显示总播放时间
+    });
+
+    function formatTime(seconds) { // 将以秒为单位的时间转换为 分:秒 的格式，以便更好地显示时间
+      const minutes = Math.floor(seconds / 60); // 计算出输入秒数对应的分钟数。Math.floor 方法将除法运算得到的分钟数向下取整
+      const remainingSeconds = Math.floor(seconds % 60); // 计算出剩余的秒数，即除去整数分钟部分后剩余的秒数
+      const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds; // 将剩余的秒数格式化为两位数的字符串，若剩余秒数小于 10，则在数字前添加一个 '0'，以保证显示格式的一致性
+	  // 这段代码的意思是：如果 remainingSeconds 小于 10，即剩余的秒数小于 10 秒，
+	  // 则 formattedSeconds 的值将会是 0 加上 remainingSeconds。
+	  // 如果 remainingSeconds 大于等于 10 秒，则 formattedSeconds 的值将直接等于 remainingSeconds。
+	  // 它由三个部分组成：
+	  // 1. 第一个部分是条件（remainingSeconds < 10）。
+	  // 2. 第二个部分是 ? 之前的表达式（0${remainingSeconds}），表示如果条件为真时的结果。
+	  // 3. 第三个部分是 : 之后的表达式（remainingSeconds），表示如果条件为假时的结果。
+      return `${minutes}:${formattedSeconds}`; // 将格式化后的分钟数和剩余秒数组合成 分钟:秒 的格式，并作为函数的返回值返回
+    }
+	
+    function showTimeDisplay() { // 显示时间显示:
+      const timeDisplay = document.getElementById('timeDisplay');
+      timeDisplay.style.visibility = 'visible'; // 显示时间显示元素
+    }
+	
+    function hideTimeDisplay() { // 隐藏时间显示:
+      const timeDisplay = document.getElementById('timeDisplay');
+      timeDisplay.style.visibility = 'hidden'; // 隐藏时间显示元素
+    }	
+	
+	// 可互动蜘蛛网背景特效	
+	!function () {
+    function n(n, e, t) {
+        return n.getAttribute(e) || t
+    }
+ 
+    function e(n) {
+        return document.getElementsByTagName(n)
+    }
+ 
+    function t() {
+        var t = e("script"), o = t.length, i = t[o - 1];
+        return {l: o, z: n(i, "zIndex", -1), o: n(i, "opacity", .5), c: n(i, "color", "0,0,0"), n: n(i, "count", 99)}
+    }
+ 
+    function o() {
+        a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    }
+ 
+    function i() {
+        r.clearRect(0, 0, a, c);
+        var n, e, t, o, m, l;
+        s.forEach(function (i, x) {
+            for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e], null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+        }), x(i)
+    }
+ 
+    var a, c, u, m = document.createElement("canvas"), d = t(), l = "c_n" + d.l, r = m.getContext("2d"),
+        x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (n) {
+            window.setTimeout(n, 1e3 / 45)
+        }, w = Math.random, y = {x: null, y: null, max: 2e4};
+    m.id = l, m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o, e("body")[0].appendChild(m), o(), window.onresize = o, window.onmousemove = function (n) {
+        n = n || window.event, y.x = n.clientX, y.y = n.clientY
+    }, window.onmouseout = function () {
+        y.x = null, y.y = null
+    };
+    for (var s = [], f = 0; d.n > f; f++) {
+        var h = w() * a, g = w() * c, v = 2 * w() - 1, p = 2 * w() - 1;
+        s.push({x: h, y: g, xa: v, ya: p, max: 6e3})
+    }
+    u = s.concat([y]), setTimeout(function () {
+        i()
+    }, 100)
+	}();
+	
+	// 鼠标点击出现符号特效
+        window.onload = function () {
+            function ClickFrontShow() {
+                this.fron = ['The Dark Side of the Moon', 'Pink Floyd', 'Rock', '1973', 'Speak To Me', 'Breathe (In The Air)', 'On The Run', 'Time', 'The Great Gig In The Sky', 'Money', 'Us And Them', 'Any Colour You Like', 'Brain Damage', 'Eclipse'];
+                // 彩虹七色: 红、橙、黄、绿、蓝、靛蓝、堇紫
+				this.colo = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#8B00FF'];
+                this.elBody = document.getElementsByTagName("body")[0];
+                this.randomNum = null;
+                this.finde = 0;
+                this.cls = 0;
+            }
+            ClickFrontShow.prototype.init = function (frontArray, colorArray) {
+                this.fron = frontArray || this.fron;
+                this.colo = colorArray || this.colo;
+                this.listenMouse();
+            }
+            ClickFrontShow.prototype.createFront = function (classname) {
+                var self = this;
+                let ospan = document.createElement('span');
+                let cssText = "position:absolute; width: 400px; height: 20px; cursor: default; transform: translate(-50%,-50%); font-weight: bold; opacity: 1; z-index: 1000; transition: 1s;";
+                let randomFront = self.fron[self.finde];
+                let randomColor = self.colo[Math.round(Math.random() * (self.colo.length - 1))];
+                self.finde = (self.finde + 1) % self.fron.length;
+                self.elBody.appendChild(ospan);
+                ospan.className = String(classname);
+                ospan.style.cssText = cssText + "-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;"
+                ospan.style.color = randomColor;
+                ospan.innerHTML = randomFront;
+            }
+            ClickFrontShow.prototype.listenMouse = function () {
+                var self = this;
+                document.onclick = function (e) {
+                    if (self.cls === 20) {
+                        self.cls = 0;
+                    } else {
+                        self.cls += 1;
+                    }
+                    self.createFront(self.cls);
+                    let el = document.getElementsByClassName(self.cls)[0];
+                    el.style.left = e.clientX + 'px';
+                    el.style.top = e.clientY + 'px';
+                    setTimeout(function () {
+                        el.style.opacity = 0;
+                        el.style.top = el.offsetTop - 100 + 'px';
+                    }, 100);
+                    setTimeout(function () {
+                        self.elBody.removeChild(el);
+                    }, 2000);
+                }
+ 
+            }
+            var frontShow = new ClickFrontShow();
+            frontShow.init();
+        }
+	
+	// 动态繁星背景
+    const stars = document.querySelector('.stars');
+    for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.top = Math.random() * 100 + 'vh';
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.width = Math.random() * 2 + 1 + 'px';
+        star.style.height = star.style.width;
+        star.style.animationDuration = Math.random() * 2 + 1 + 's';
+        stars.appendChild(star);
+    }	
+	
+  </script>
+</body>
+
+</html>
